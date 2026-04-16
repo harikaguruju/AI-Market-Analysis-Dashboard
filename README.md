@@ -49,4 +49,7 @@ An AI-powered web application that analyzes market sectors and generates structu
 
 ## 🌐 Live Demo
 
-👉 https://trade-api-kby2.onrender.com
+👉 [Open Website](https://trade-api-kby2.onrender.com)
+
+Or copy this link:
+https://trade-api-kby2.onrender.com
