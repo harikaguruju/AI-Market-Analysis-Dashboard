@@ -57,16 +57,29 @@ def check_rate_limit(client_ip):
     request_log[client_ip].append(current_time)
 
 # -------------------------------
-# FETCH NEWS (simple mock)
+# VALID SECTORS (NEW)
+# -------------------------------
+VALID_SECTORS = ["healthcare", "technology", "finance", "education", "energy"]
+
+# -------------------------------
+# FETCH NEWS (REAL-TIME)
 # -------------------------------
 def fetch_news(sector):
-    return [
-        f"{sector} sector is growing rapidly in India",
-        f"Investments in {sector} are increasing",
-        f"Government policies support {sector}",
-        f"{sector} startups are booming",
-        f"Competition in {sector} is rising"
-    ]
+    api_key = os.getenv("NEWS_API_KEY")
+
+    url = f"https://newsapi.org/v2/everything?q={sector}&apiKey={api_key}&pageSize=5"
+
+    try:
+        response = requests.get(url)
+        data = response.json()
+
+        articles = data.get("articles", [])
+        titles = [a["title"] for a in articles if "title" in a]
+
+        return titles if titles else ["No latest news available"]
+
+    except Exception:
+        return ["Error fetching real-time data"]
 
 # -------------------------------
 # ROUTES
@@ -80,25 +93,38 @@ def analyze_sector(
 
     check_rate_limit(request.client.host)
 
+    # 🔥 VALIDATION (NEW)
+    if sector.lower() not in VALID_SECTORS:
+        return {
+            "error": "Please enter a valid sector like healthcare, technology, finance"
+        }
+
     insights = fetch_news(sector)
 
+    # 🔥 HANDLE NO DATA
+    if insights == ["No latest news available"]:
+        return {
+            "error": "No real-time data found for this sector"
+        }
+
+    # 🔥 REAL DATA BASED REPORT
     report = f"""
 # Market Analysis: {sector}
 
 ## Current Trends
-- {insights[0]}
-- {insights[1]}
+- {insights[0] if len(insights)>0 else ''}
+- {insights[1] if len(insights)>1 else ''}
 
 ## Opportunities
-- Growing demand
-- Strong investment flow
+- Increasing investments observed
+- Positive industry growth signals
 
 ## Risks
-- High competition
-- Regulatory challenges
+- Market competition
+- Policy and regulatory challenges
 
 ## Conclusion
-The {sector} sector shows strong future potential.
+The {sector} sector shows growth based on real-time industry developments.
 """
 
     return {
@@ -108,10 +134,11 @@ The {sector} sector shows strong future potential.
             "growth": 80,
             "risk": 60,
             "demand": 75
-        }
+        },
+        "insights": insights   # 🔥 extra real-time data
     }
 
 # -------------------------------
-# SERVE FRONTEND (VERY IMPORTANT)
+# SERVE FRONTEND
 # -------------------------------
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
