@@ -1,5 +1,9 @@
 # Trade_API
 Designed and deployed a full-stack AI-driven Market Analysis Dashboard using FastAPI, integrating real-time data APIs and generative AI to deliver structured business insights, trend analysis, and visual analytics.
+# Trade_API
+
+Designed and deployed a full-stack AI-driven Market Analysis Dashboard using FastAPI, integrating real-time data APIs and generative AI to deliver structured business insights, trend analysis, and visual analytics.
+
 # 📊 AI Market Analysis Dashboard
 
 An AI-powered web application that analyzes market sectors and generates structured business insights using real-time data and generative AI.
@@ -29,9 +33,8 @@ An AI-powered web application that analyzes market sectors and generates structu
 
 ---
 
----
-
 ## 📂 Project Structure
+
 ```text
 📦 AI-Market-Analysis-Dashboard
 │
@@ -48,10 +51,8 @@ An AI-powered web application that analyzes market sectors and generates structu
 ├── .env                     # API keys
 ├── LICENSE                  # MIT License
 └── README.md                # Documentation
----
-## 🌐 Live Demo
 
-👉 [Open Website](https://trade-api-kby2.onrender.com)
 
-Or copy this link:
-https://trade-api-kby2.onrender.com
+```markdown
+👉 [Open Live Dashboard](https://trade-api-kby2.onrender.com)
+
